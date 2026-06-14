@@ -1,0 +1,25 @@
+{
+  "name": "@repo/workflows",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./types": "./src/types.ts",
+    "./queue": "./src/queue.ts",
+    "./cloudflare": "./src/cloudflare.ts",
+    "./service": "./src/service.ts"
+  },
+  "scripts": {
+    "check-types": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260423.1",
+    "typescript": "~5.9.3",
+    "vitest": "^4.1.5"
+  }
+}

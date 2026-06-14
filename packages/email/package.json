@@ -1,0 +1,19 @@
+{
+  "name": "@repo/email",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@react-email/components": "^1.0.12",
+    "nodemailer": "^8.0.5",
+    "react": "19.2.5"
+  },
+  "devDependencies": {
+    "@types/nodemailer": "^8.0.0",
+    "@types/react": "19.2.14",
+    "typescript": "^6.0.3"
+  }
+}

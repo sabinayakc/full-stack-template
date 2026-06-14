@@ -1,0 +1,25 @@
+appId: com.example.app
+name: "Shared - Complete Slim Onboarding (invited user)"
+---
+# Reusable onboarding sub-flow for users who joined via invitation.
+# Only the preferences step is shown (org/invite/summary are skipped).
+# Expects to start on the onboarding screen with skipOrg=1.
+# Uses output.* from test-data.js for common values
+
+# ─── Step 1 of 1: Preferences ───────────────────────────────────────
+- assertVisible: "Step 1 of 1"
+- assertVisible: "Your Preferences"
+
+- tapOn:
+    id: "${output.aiToneId}"
+
+- scrollUntilVisible:
+    element:
+      id: "onboarding-next"
+    direction: DOWN
+- tapOn:
+    id: "onboarding-next"
+
+- extendedWaitUntil:
+    visible: "${output.appName}"
+    timeout: 15000

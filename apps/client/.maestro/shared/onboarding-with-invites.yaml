@@ -1,0 +1,91 @@
+appId: com.example.app
+name: "Shared - Complete Onboarding (with Invites)"
+---
+# Reusable onboarding sub-flow that adds team invitations in step 3.
+# Expects to start on the onboarding screen (Step 1 of 4).
+# Required env: ORG_NAME
+# Uses output.* from test-data.js for common values + invite data
+
+# ─── Step 1: Organization ────────────────────────────────────────────
+- assertVisible: "Step 1 of 4"
+
+- tapOn:
+    id: "onboarding-org-name"
+- inputText: "${ORG_NAME}"
+- tapOn: "Step 1 of 4"
+
+- tapOn:
+    id: "${output.companySizeId}"
+
+- scrollUntilVisible:
+    element:
+      id: "${output.primaryServiceId}"
+    direction: DOWN
+- tapOn:
+    id: "${output.primaryServiceId}"
+
+- scrollUntilVisible:
+    element:
+      id: "onboarding-next"
+    direction: DOWN
+- tapOn:
+    id: "onboarding-next"
+
+# ─── Step 2: Preferences ─────────────────────────────────────────────
+- assertVisible: "Step 2 of 4"
+- tapOn:
+    id: "${output.aiToneId}"
+
+- scrollUntilVisible:
+    element:
+      id: "onboarding-next"
+    direction: DOWN
+- tapOn:
+    id: "onboarding-next"
+
+# ─── Step 3: Invite team members ─────────────────────────────────────
+- assertVisible: "Step 3 of 4"
+- assertVisible: "Invite Your Team"
+
+# Add first invite (member role is default)
+- tapOn:
+    id: "onboarding-invite-email"
+- inputText: "${output.inviteEmail1}"
+- tapOn: "Step 3 of 4"
+- tapOn:
+    id: "onboarding-invite-add"
+- assertVisible: "${output.inviteEmail1}"
+
+# Add second invite as admin
+- tapOn:
+    id: "onboarding-invite-role-admin"
+- tapOn:
+    id: "onboarding-invite-email"
+- inputText: "${output.inviteEmail2}"
+- tapOn: "Step 3 of 4"
+- tapOn:
+    id: "onboarding-invite-add"
+- assertVisible: "${output.inviteEmail2}"
+
+- scrollUntilVisible:
+    element:
+      id: "onboarding-next"
+    direction: DOWN
+- tapOn:
+    id: "onboarding-next"
+
+# ─── Step 4: Verify summary includes invites, then complete ──────────
+- assertVisible: "Step 4 of 4"
+- assertVisible: "${output.inviteEmail1}"
+- assertVisible: "${output.inviteEmail2}"
+
+- scrollUntilVisible:
+    element:
+      id: "onboarding-next"
+    direction: DOWN
+- tapOn:
+    id: "onboarding-next"
+
+- extendedWaitUntil:
+    visible: "${output.appName}"
+    timeout: 15000

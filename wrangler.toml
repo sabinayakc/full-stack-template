@@ -1,0 +1,141 @@
+# Cloudflare Workers configuration
+#
+# Single Worker serves both the API (/api/*) and the web app (static assets).
+#
+# Local dev:  `pnpm wrangler dev`
+# Dev:        `pnpm deploy:dev`
+# Production: `pnpm deploy:prod`
+#
+# Binding IDs are populated by `infra/scripts/sync-wrangler.sh` after `tofu apply`.
+
+name = "app"
+main = "apps/server/src/index.ts"
+compatibility_date = "2025-12-01"
+compatibility_flags = ["nodejs_compat"]
+
+routes = [
+  { pattern = "app.example.com", custom_domain = true },
+]
+
+[alias]
+pdfkit = "./packages/pdf/node_modules/pdfkit/js/pdfkit.standalone.js"
+
+[build]
+command = ""
+
+# ─── Static Assets (Expo web export) ─────────────────────────────────────────
+
+[assets]
+directory = "./apps/client/dist"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
+run_worker_first = ["/api/*", "/.well-known/*"]
+
+# ─── Observability ────────────────────────────────────────────────────────────
+
+[observability]
+enabled = true
+
+[observability.logs]
+enabled = true
+invocation_logs = false
+
+# ─── Production ───────────────────────────────────────────────────────────────
+
+[vars]
+ENVIRONMENT = "production"
+CLIENT_URL = "https://app.example.com"
+BETTER_AUTH_URL = "https://app.example.com/api/auth"
+
+[[kv_namespaces]]
+binding = "KV"
+id = "placeholder" # populated by sync-wrangler.sh
+
+[[r2_buckets]]
+binding = "R2"
+bucket_name = "placeholder" # populated by sync-wrangler.sh
+
+[[hyperdrive]]
+binding = "HYPERDRIVE"
+id = "placeholder" # populated by sync-wrangler.sh
+
+[[send_email]]
+name = "EMAIL"
+remote = true
+
+[ai]
+binding = "AI"
+remote = true
+
+# ─── Queue ───────────────────────────────────────────────────────────────────
+
+[[queues.producers]]
+queue = "app-production-jobs"
+binding = "JOB_QUEUE"
+
+[[queues.consumers]]
+queue = "app-production-jobs"
+max_batch_size = 10
+max_batch_timeout = 30
+dead_letter_queue = "app-production-jobs-dlq"
+max_retries = 3
+
+# ─── Workflows ───────────────────────────────────────────────────────────────
+
+[[workflows]]
+name = "app-example-workflow"
+binding = "EXAMPLE_WORKFLOW"
+class_name = "ExampleWorkflow"
+
+# ─── Dev ──────────────────────────────────────────────────────────────────────
+
+[env.dev]
+name = "app-dev"
+routes = [
+  { pattern = "app-dev.example.com", custom_domain = true },
+]
+
+[env.dev.vars]
+ENVIRONMENT = "development"
+CLIENT_URL = "https://app-dev.example.com"
+BETTER_AUTH_URL = "https://app-dev.example.com/api/auth"
+
+[[env.dev.kv_namespaces]]
+binding = "KV"
+id = "placeholder" # populated by sync-wrangler.sh
+
+[[env.dev.r2_buckets]]
+binding = "R2"
+bucket_name = "placeholder" # populated by sync-wrangler.sh
+
+[[env.dev.hyperdrive]]
+binding = "HYPERDRIVE"
+id = "placeholder" # populated by sync-wrangler.sh
+
+[[env.dev.send_email]]
+name = "EMAIL"
+remote = true
+
+[env.dev.ai]
+binding = "AI"
+remote = true
+
+# ─── Dev Queue ───────────────────────────────────────────────────────────────
+
+[[env.dev.queues.producers]]
+queue = "app-dev-jobs"
+binding = "JOB_QUEUE"
+
+[[env.dev.queues.consumers]]
+queue = "app-dev-jobs"
+max_batch_size = 5
+max_batch_timeout = 10
+dead_letter_queue = "app-dev-jobs-dlq"
+max_retries = 3
+
+# ─── Dev Workflows ───────────────────────────────────────────────────────────
+
+[[env.dev.workflows]]
+name = "app-dev-example-workflow"
+binding = "EXAMPLE_WORKFLOW"
+class_name = "ExampleWorkflow"

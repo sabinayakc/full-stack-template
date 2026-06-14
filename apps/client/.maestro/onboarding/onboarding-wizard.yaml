@@ -1,0 +1,120 @@
+appId: com.example.app
+name: "Onboarding - Full Wizard Flow (UI)"
+tags:
+  - onboarding
+  - validation
+---
+# Validates the onboarding wizard UI and then completes it.
+# Assumes user is already authenticated and on the onboarding screen.
+
+- runScript:
+    file: ../helpers/test-data.js
+
+- launchApp:
+    clearState: false
+
+# ─── Validation: empty form ──────────────────────────────────────────
+- assertVisible: "Step 1 of 4"
+- assertVisible: "Set Up Your Organization"
+- assertVisible: "Company Name"
+- assertVisible: "URL Slug"
+
+- scrollUntilVisible:
+    element:
+      id: "onboarding-next"
+    direction: DOWN
+- tapOn:
+    id: "onboarding-next"
+- assertVisible: "Organization name is required"
+
+# ─── Fill Step 1 and verify slug auto-generates ──────────────────────
+- scrollUntilVisible:
+    element:
+      id: "onboarding-org-name"
+    direction: UP
+- tapOn:
+    id: "onboarding-org-name"
+- inputText: "Falcon Foundation Systems"
+- tapOn: "Step 1 of 4"
+- assertVisible: "example-org"
+
+- tapOn:
+    id: "${output.companySizeId}"
+
+- scrollUntilVisible:
+    element:
+      id: "onboarding-service-foundation_repair"
+    direction: DOWN
+- tapOn:
+    id: "onboarding-service-foundation_repair"
+
+- scrollUntilVisible:
+    element:
+      id: "onboarding-next"
+    direction: DOWN
+- tapOn:
+    id: "onboarding-next"
+
+# ─── Step 2 ──────────────────────────────────────────────────────────
+- assertVisible: "Step 2 of 4"
+- assertVisible: "Your Preferences"
+- assertVisible: "AI Assistant Tone"
+
+- tapOn:
+    id: "${output.aiToneId}"
+
+- tapOn:
+    id: "onboarding-job-title"
+- inputText: "${output.jobTitle}"
+- tapOn: "Step 2 of 4"
+
+- scrollUntilVisible:
+    element:
+      id: "onboarding-next"
+    direction: DOWN
+- tapOn:
+    id: "onboarding-next"
+
+# ─── Step 3 (skip invites) ──────────────────────────────────────────
+- assertVisible: "Step 3 of 4"
+- assertVisible: "Invite Your Team"
+
+- scrollUntilVisible:
+    element:
+      id: "onboarding-next"
+    direction: DOWN
+- tapOn:
+    id: "onboarding-next"
+
+# ─── Step 4: Verify summary ─────────────────────────────────────────
+- assertVisible: "Step 4 of 4"
+- assertVisible: "Review & Finish"
+- assertVisible: "Falcon Foundation Systems"
+- assertVisible: "example-org"
+- assertVisible: "${output.aiTone}"
+- assertVisible: "${output.jobTitle}"
+
+# ─── Validation: back navigation works ───────────────────────────────
+- tapOn: "Back"
+- assertVisible: "Invite Your Team"
+
+- scrollUntilVisible:
+    element:
+      id: "onboarding-next"
+    direction: DOWN
+- tapOn:
+    id: "onboarding-next"
+
+# ─── Complete ────────────────────────────────────────────────────────
+- assertVisible: "Complete Setup"
+
+- scrollUntilVisible:
+    element:
+      id: "onboarding-next"
+    direction: DOWN
+- tapOn:
+    id: "onboarding-next"
+
+- extendedWaitUntil:
+    visible: "${output.appName}"
+    timeout: 15000

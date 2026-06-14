@@ -1,0 +1,68 @@
+appId: com.example.app
+name: "Shared - Complete Onboarding"
+---
+# Reusable onboarding sub-flow (happy path, no invites).
+# Expects to start on the onboarding screen (Step 1 of 4).
+# Required env: ORG_NAME
+# Uses output.* from test-data.js for common values
+
+# ─── Step 1: Organization ────────────────────────────────────────────
+- assertVisible: "Step 1 of 4"
+
+- tapOn:
+    id: "onboarding-org-name"
+- inputText: "${ORG_NAME}"
+- tapOn: "Step 1 of 4"
+
+- tapOn:
+    id: "${output.companySizeId}"
+
+- scrollUntilVisible:
+    element:
+      id: "${output.primaryServiceId}"
+    direction: DOWN
+- tapOn:
+    id: "${output.primaryServiceId}"
+
+- scrollUntilVisible:
+    element:
+      id: "onboarding-next"
+    direction: DOWN
+- tapOn:
+    id: "onboarding-next"
+
+# ─── Step 2: Preferences ─────────────────────────────────────────────
+- assertVisible: "Step 2 of 4"
+- tapOn:
+    id: "${output.aiToneId}"
+
+- scrollUntilVisible:
+    element:
+      id: "onboarding-next"
+    direction: DOWN
+- tapOn:
+    id: "onboarding-next"
+
+# ─── Step 3: Invite (skip) ───────────────────────────────────────────
+- assertVisible: "Step 3 of 4"
+
+- scrollUntilVisible:
+    element:
+      id: "onboarding-next"
+    direction: DOWN
+- tapOn:
+    id: "onboarding-next"
+
+# ─── Step 4: Complete ─────────────────────────────────────────────────
+- assertVisible: "Step 4 of 4"
+
+- scrollUntilVisible:
+    element:
+      id: "onboarding-next"
+    direction: DOWN
+- tapOn:
+    id: "onboarding-next"
+
+- extendedWaitUntil:
+    visible: "${output.appName}"
+    timeout: 15000

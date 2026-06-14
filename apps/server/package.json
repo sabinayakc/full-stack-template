@@ -1,0 +1,43 @@
+{
+  "name": "@repo/server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "check-types": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@better-auth/expo": "^1.6.7",
+    "@repo/ai": "workspace:*",
+    "@repo/blob": "workspace:*",
+    "@repo/db": "workspace:*",
+    "@repo/email": "workspace:*",
+    "@repo/sms": "workspace:*",
+    "@repo/kv": "workspace:*",
+    "@repo/pdf": "workspace:*",
+    "@repo/providers": "workspace:*",
+    "@repo/shared": "workspace:*",
+    "@repo/workflows": "workspace:*",
+    "@hono/zod-validator": "^0.7.6",
+    "ai": "^6.0.168",
+    "better-auth": "^1.6.7",
+    "hono": "^4.12.14",
+    "rrule": "^2.8.1",
+    "unpdf": "^1.6.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260423.1",
+    "@hono/vite-build": "^1.11.1",
+    "@types/node": "^25.6.0",
+    "tsx": "^4.21.0",
+    "typescript": "~5.9.3",
+    "vite": "^8.0.9",
+    "vite-tsconfig-paths": "^6.1.1",
+    "vitest": "^4.1.5"
+  }
+}

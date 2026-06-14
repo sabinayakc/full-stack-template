@@ -1,0 +1,108 @@
+appId: com.example.app
+name: "Onboarding - Invite Members (UI)"
+tags:
+  - onboarding
+  - invites
+  - validation
+---
+# Validates the invite step UI: adding, duplicate detection, role switching, removal.
+# Assumes user is already on the onboarding screen (step 1).
+
+- runScript:
+    file: ../helpers/test-data.js
+
+- launchApp:
+    clearState: false
+
+# ─── Navigate to Step 3 (Invite) ────────────────────────────────────
+
+# Step 1: Fill required org fields
+- assertVisible: "Step 1 of 4"
+- tapOn:
+    id: "onboarding-org-name"
+- inputText: "Invite Test Org"
+- tapOn: "Step 1 of 4"
+- tapOn:
+    id: "${output.companySizeId}"
+
+- scrollUntilVisible:
+    element:
+      id: "${output.primaryServiceId}"
+    direction: DOWN
+- tapOn:
+    id: "${output.primaryServiceId}"
+
+- scrollUntilVisible:
+    element:
+      id: "onboarding-next"
+    direction: DOWN
+- tapOn:
+    id: "onboarding-next"
+
+# Step 2: Pick AI tone
+- assertVisible: "Step 2 of 4"
+- tapOn:
+    id: "${output.aiToneId}"
+
+- scrollUntilVisible:
+    element:
+      id: "onboarding-next"
+    direction: DOWN
+- tapOn:
+    id: "onboarding-next"
+
+# ─── Step 3: Invite Team ────────────────────────────────────────────
+- assertVisible: "Step 3 of 4"
+- assertVisible: "Invite Your Team"
+
+# Add first invite (member is default role)
+- tapOn:
+    id: "onboarding-invite-email"
+- inputText: "${output.inviteEmail1}"
+- tapOn: "Step 3 of 4"
+- tapOn:
+    id: "onboarding-invite-add"
+- assertVisible: "${output.inviteEmail1}"
+
+# Switch role to admin and add second invite
+- tapOn:
+    id: "onboarding-invite-role-admin"
+- tapOn:
+    id: "onboarding-invite-email"
+- inputText: "${output.inviteEmail2}"
+- tapOn: "Step 3 of 4"
+- tapOn:
+    id: "onboarding-invite-add"
+- assertVisible: "${output.inviteEmail2}"
+
+# Verify both appear in list
+- assertVisible: "${output.inviteEmail1}"
+- assertVisible: "${output.inviteEmail2}"
+
+# Remove first invite and verify it's gone
+- tapOn:
+    id: "onboarding-invite-remove-${output.inviteEmail1}"
+- assertNotVisible: "${output.inviteEmail1}"
+- assertVisible: "${output.inviteEmail2}"
+
+# Re-add the first invite for the summary check
+- tapOn:
+    id: "onboarding-invite-role-member"
+- tapOn:
+    id: "onboarding-invite-email"
+- inputText: "${output.inviteEmail1}"
+- tapOn: "Step 3 of 4"
+- tapOn:
+    id: "onboarding-invite-add"
+
+- scrollUntilVisible:
+    element:
+      id: "onboarding-next"
+    direction: DOWN
+- tapOn:
+    id: "onboarding-next"
+
+# ─── Step 4: Verify summary shows invites ────────────────────────────
+- assertVisible: "Step 4 of 4"
+- assertVisible: "${output.inviteEmail1}"
+- assertVisible: "${output.inviteEmail2}"

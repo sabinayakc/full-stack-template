@@ -1,0 +1,44 @@
+appId: com.example.app
+name: "Shared - Sign Up"
+---
+# Reusable sign-up sub-flow.
+# Expects to start on the sign-in screen.
+# Required env: NAME, EMAIL
+# Uses output.password from test-data.js
+
+- assertVisible: "Welcome back"
+- tapOn: "Sign Up"
+- assertVisible: "Create your account"
+
+- tapOn:
+    id: "signup-name"
+- inputText: "${NAME}"
+- tapOn: "App"
+
+- tapOn:
+    id: "signup-email"
+- inputText: "${EMAIL}"
+- tapOn: "App"
+
+- tapOn:
+    id: "signup-password"
+- inputText: "${output.password}"
+- tapOn: "App"
+
+- tapOn:
+    id: "signup-confirm-password"
+- inputText: "${output.password}"
+- tapOn: "App"
+
+- scroll
+- scrollUntilVisible:
+    element:
+      id: "signup-submit"
+    direction: DOWN
+- tapOn:
+    id: "signup-submit"
+
+# Wait for post-signup navigation (onboarding, invitation, or app)
+- extendedWaitUntil:
+    visible: "Set Up Your Organization|You're Invited!|${output.appName}"
+    timeout: 10000

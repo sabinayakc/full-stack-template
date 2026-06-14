@@ -1,0 +1,22 @@
+appId: com.example.app
+name: "Shared - Sign In"
+---
+# Reusable sign-in sub-flow.
+# Expects to start on the sign-in screen.
+# Required env: EMAIL
+# Uses output.password from test-data.js
+
+- assertVisible: "Welcome back"
+
+- tapOn:
+    id: "signin-email"
+- inputText: "${EMAIL}"
+- tapOn: "App"
+
+- tapOn:
+    id: "signin-password"
+- inputText: "${output.password}"
+- tapOn: "App"
+
+- tapOn:
+    id: "signin-submit"

@@ -1,0 +1,46 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: app-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: app
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  localstack:
+    image: localstack/localstack:latest
+    container_name: app-localstack
+    restart: unless-stopped
+    environment:
+      SERVICES: s3
+      DEFAULT_REGION: us-east-1
+    ports:
+      - "4566:4566"
+    volumes:
+      - localstack_data:/var/lib/localstack
+
+  mailpit:
+    image: axllent/mailpit
+    container_name: mailpit
+    restart: unless-stopped
+    volumes:
+      - mailpit_data:/data
+    ports:
+      - 8025:8025
+      - 1025:1025
+    environment:
+      MP_MAX_MESSAGES: 100
+      MP_DATABASE: /data/mailpit.db
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+
+volumes:
+  postgres_data:
+  localstack_data:
+  mailpit_data:
+

@@ -1,0 +1,29 @@
+appId: com.example.app
+name: "E2E - Full Sign Up with Invites"
+tags:
+  - e2e
+  - auth
+  - onboarding
+  - invites
+---
+# Full end-to-end flow: Sign Up -> Onboarding (with invites) -> Main App
+#
+# Prerequisites:
+#   - Server running with E2E_AUTO_VERIFY=true
+
+- runScript:
+    file: ../helpers/test-data.js
+
+- launchApp:
+    clearState: false
+
+- runFlow:
+    file: ../shared/signup.yaml
+    env:
+      NAME: "${output.uniqueName}"
+      EMAIL: "${output.uniqueEmail}"
+
+- runFlow:
+    file: ../shared/onboarding-with-invites.yaml
+    env:
+      ORG_NAME: "${output.orgName}"

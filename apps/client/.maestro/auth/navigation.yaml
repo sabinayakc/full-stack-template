@@ -1,0 +1,24 @@
+appId: com.example.app
+name: "Auth - Screen Navigation"
+---
+- launchApp:
+    clearState: true
+
+# Start on sign-in
+- assertVisible: "Welcome back"
+
+# Go to sign-up
+- tapOn: "Sign Up"
+- assertVisible: "Create your account"
+
+# Go back to sign-in
+- tapOn: "Sign In"
+- assertVisible: "Welcome back"
+
+# Go to forgot password
+- tapOn: "Forgot password?"
+- assertVisible: "Reset your password"
+
+# Go back to sign-in
+- tapOn: "Sign In"
+- assertVisible: "Welcome back"

@@ -1,0 +1,29 @@
+appId: com.example.app
+name: "E2E - Seed Test User"
+tags:
+  - e2e
+  - seed
+---
+# Creates the standard seed user and completes onboarding.
+# Run this once before running signin-existing-user.yaml.
+#
+# Prerequisites:
+#   - Server running with E2E_AUTO_VERIFY=true
+#   - Seed user must NOT already exist
+
+- runScript:
+    file: ../helpers/test-data.js
+
+- launchApp:
+    clearState: false
+
+- runFlow:
+    file: ../shared/signup.yaml
+    env:
+      NAME: "${output.seedName}"
+      EMAIL: "${output.seedEmail}"
+
+- runFlow:
+    file: ../shared/onboarding-complete.yaml
+    env:
+      ORG_NAME: "${output.seedOrgName}"

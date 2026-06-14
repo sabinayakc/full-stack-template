@@ -1,0 +1,75 @@
+{
+  "version": 1,
+  "skills": {
+    "ai-sdk": {
+      "source": "vercel/ai",
+      "sourceType": "github",
+      "computedHash": "58ce68f628890c3925aea2b5435a649251ac182057541045c68fc19a27aaa0ec"
+    },
+    "building-native-ui": {
+      "source": "expo/skills",
+      "sourceType": "github",
+      "computedHash": "342df93f481a0dba919f372d6c7b40d2b4bf5b51dd24363aea2e5d0bae27a6fa"
+    },
+    "cloudflare": {
+      "source": "developers.cloudflare.com",
+      "sourceType": "well-known",
+      "computedHash": "f87ea54de1ad7d8197a21640888af6ccb2e912682710658a9bafb5df0093df61"
+    },
+    "cloudflare-email-service": {
+      "source": "developers.cloudflare.com",
+      "sourceType": "well-known",
+      "computedHash": "6274be056fe5211aa220833c97ff6a7d96a1cdfd8854a53ca839ca758d35f356"
+    },
+    "dbos-typescript": {
+      "source": "dbos-inc/agent-skills",
+      "sourceType": "github",
+      "computedHash": "0ea184b3ade54eedfd7109e041ec44803b12f7abc89116d9fab21a47ef40f295"
+    },
+    "expo-api-routes": {
+      "source": "expo/skills",
+      "sourceType": "github",
+      "computedHash": "015c6b849507fda73fcc32d2448f033aaaaa21f5229085342b8421727a90cafb"
+    },
+    "expo-dev-client": {
+      "source": "expo/skills",
+      "sourceType": "github",
+      "computedHash": "234e2633b7fbcef2d479f8fe8ab20d53d08ed3e4beec7c965da4aff5b43affe7"
+    },
+    "expo-react-native-typescript": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "computedHash": "ef1a36e2a4e803d4e754eabea9b851221ee37b5c416256dbc9d2d1b333447f4b"
+    },
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "computedHash": "6412eb4eb3b91595ebab937f0c69501240e7ba761b3d82510b5cf506ec5c7adc"
+    },
+    "tanstack-query-best-practices": {
+      "source": "deckardger/tanstack-agent-skills",
+      "sourceType": "github",
+      "computedHash": "21d2e8b7468a81d772b6527ad8ca178cc2f3f08af777bb9061333013ee88a0c9"
+    },
+    "upgrading-expo": {
+      "source": "expo/skills",
+      "sourceType": "github",
+      "computedHash": "939a6820e0d6ead943bb4ad93cec647815e73fbc04043401773b2138e9e13b69"
+    },
+    "use-dom": {
+      "source": "expo/skills",
+      "sourceType": "github",
+      "computedHash": "8eca0e229f16e3499e5dbf791a79f5a5cba1e98b4af88ca495c903930d7f1ba0"
+    },
+    "workers-best-practices": {
+      "source": "developers.cloudflare.com",
+      "sourceType": "well-known",
+      "computedHash": "420e1ad3eaeb8ed2016e6b34fff3757de6aa39899ec2bd6e9784a29c38e70f9a"
+    },
+    "wrangler": {
+      "source": "developers.cloudflare.com",
+      "sourceType": "well-known",
+      "computedHash": "a27fded44ce73b7ef69b1b52fcdf0cdde9c2b17f345b761bf11ca32d37da2220"
+    }
+  }
+}

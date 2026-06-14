@@ -1,0 +1,72 @@
+{
+  "name": "template",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"pnpm dev:server\" \"pnpm --filter @repo/client ios\" \"pnpm --filter @repo/client android\"",
+    "dev:ios": "pnpm --filter @repo/client ios",
+    "dev:android": "pnpm --filter @repo/client android",
+    "prebuild:ios": "pnpm --filter @repo/client prebuild:ios",
+    "prebuild:android": "pnpm --filter @repo/client prebuild:android",
+    "prebuild": "concurrently \"pnpm prebuild:ios\" \"pnpm prebuild:android\"",
+    "start": "concurrently \"pnpm dev:server\" \"pnpm --filter @repo/client start\"",
+    "start:reset": "concurrently \"pnpm dev:server\" \"pnpm --filter @repo/client start:reset\"",
+    "dev:server": "set -a && . ./.env.local && set +a && wrangler dev --env dev",
+    "dev:client": "pnpm --filter @repo/client start",
+    "dev:web": "pnpm --filter @repo/client web",
+    "test:server": "pnpm --filter @repo/server test",
+    "test:client": "pnpm --filter @repo/client test",
+    "test": "pnpm -r test",
+    "auth:generate": "pnpm dlx auth@latest generate",
+    "auth:generate:db": "pnpm dlx auth@latest generate --output packages/db/src/schema/auth.ts --config apps/server/src/auth/server.ts",
+    "build": "concurrently \"pnpm --filter @repo/server build\" \"pnpm --filter @repo/client build:web\"",
+    "build:dev": "concurrently \"pnpm --filter @repo/server build\" \"pnpm --filter @repo/client build:web:dev\"",
+    "build:server": "pnpm --filter @repo/server build",
+    "deploy:dev": "pnpm build:dev && wrangler deploy --env dev --secrets-file .env.dev",
+    "deploy:dev:quick": "wrangler deploy --env dev --secrets-file .env.dev",
+    "deploy:prod": "pnpm build && wrangler deploy --secrets-file .env.prod",
+    "deploy:prod:quick": "wrangler deploy --secrets-file .env.prod",
+    "db:generate": "pnpm --filter @repo/db db:generate",
+    "db:push": "pnpm --filter @repo/db db:push",
+    "db:studio": "pnpm --filter @repo/db db:studio",
+    "db:seed": "pnpm --filter @repo/db db:seed",
+    "infra:plan:dev": "source infra/env.sh && cd infra/tofu && tofu plan --var-file environments/dev.tfvars",
+    "infra:init": "source infra/env.sh && cd infra/tofu && tofu init --upgrade",
+    "infra:apply:dev": "source infra/env.sh && cd infra/tofu && tofu apply --var-file environments/dev.tfvars",
+    "infra:destroy:dev": "source infra/env.sh && cd infra/tofu && tofu destroy --var-file environments/dev.tfvars",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write --unsafe .",
+    "lint:expo": "pnpm --filter @repo/client lint",
+    "format": "biome format --write .",
+    "format:check": "biome format .",
+    "check-types": "pnpm -r check-types",
+    "dev:e2e": "E2E_AUTO_VERIFY=true pnpm --filter @repo/server dev",
+    "test:e2e": "maestro test apps/client/.maestro/flows/",
+    "test:e2e:seed": "maestro test apps/client/.maestro/flows/seed-test-user.yaml",
+    "check": "concurrently \"pnpm lint\" \"pnpm format:check\" \"pnpm check-types\"",
+    "build:ios:preview": "pnpm --filter @repo/client build:ios:preview",
+    "build:ios:prod": "pnpm --filter @repo/client build:ios:prod",
+    "build:android:preview": "pnpm --filter @repo/client build:android:preview",
+    "build:android:prod": "pnpm --filter @repo/client build:android:prod",
+    "submit:ios": "pnpm --filter @repo/client submit:ios",
+    "submit:android": "pnpm --filter @repo/client submit:android",
+    "beta:ios": "pnpm --filter @repo/client beta:ios",
+    "beta:android": "pnpm --filter @repo/client beta:android"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.12",
+    "@types/node": "^25.6.0",
+    "concurrently": "^9.2.1",
+    "tsx": "^4.21.0",
+    "typescript": "~5.9.3",
+    "wrangler": "^4.84.1"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "pnpm": {
+    "overrides": {
+      "@lottiefiles/dotlottie-react": "^0.13.5"
+    }
+  }
+}

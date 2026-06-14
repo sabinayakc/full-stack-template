@@ -1,0 +1,27 @@
+appId: com.example.app
+name: "E2E - Sign In Existing User"
+tags:
+  - e2e
+  - auth
+---
+# Signs in with an existing user who has already completed onboarding.
+#
+# Prerequisites:
+#   - Server running with E2E_AUTO_VERIFY=true
+#   - Seed user must exist (run seed-test-user.yaml first)
+
+- runScript:
+    file: ../helpers/test-data.js
+
+- launchApp:
+    clearState: false
+
+- runFlow:
+    file: ../shared/signin.yaml
+    env:
+      EMAIL: "${output.seedEmail}"
+
+# Should redirect to org selector or main app
+- extendedWaitUntil:
+    visible: "${output.appName}|Select Organization|Set Up Your Organization"
+    timeout: 10000

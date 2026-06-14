@@ -1,0 +1,26 @@
+appId: com.example.app
+name: "Onboarding - Invitation Screen (UI)"
+tags:
+  - onboarding
+  - invites
+---
+# Validates the invitation screen UI states.
+# This test verifies rendering for an invalid/missing invitation.
+# The full accept flow is covered by flows/invitation-join-flow.yaml.
+
+- runScript:
+    file: ../helpers/test-data.js
+
+- launchApp:
+    clearState: true
+
+# Deep link to a non-existent invitation
+- openLink: "app://invitation?id=non-existent-id"
+
+# Should show error state for invalid invitation
+- extendedWaitUntil:
+    visible: "Invitation Not Found"
+    timeout: 10000
+
+- assertVisible: "This invitation may have been cancelled or the link is invalid."
+- assertVisible: "Go to Home"

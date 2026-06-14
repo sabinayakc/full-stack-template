@@ -1,0 +1,12 @@
+# Maestro E2E Test Configuration
+#
+# Prerequisites:
+#   1. Install Maestro: curl -fsSL "https://get.maestro.mobile.dev" | bash
+#   2. Start server with: E2E_AUTO_VERIFY=true pnpm --filter server dev
+#   3. Start client with: pnpm --filter client start (or run on simulator)
+#
+# Run all:  maestro test apps/client/.maestro/
+# Run one:  maestro test apps/client/.maestro/auth/sign-in.yaml
+# Run E2E:  maestro test apps/client/.maestro/flows/
+
+appId: com.example.app

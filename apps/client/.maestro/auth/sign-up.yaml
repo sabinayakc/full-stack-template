@@ -1,0 +1,34 @@
+appId: com.example.app
+name: "Auth - Sign Up (UI Validation)"
+tags:
+  - auth
+  - validation
+---
+- launchApp:
+    clearState: true
+
+# Navigate to sign-up from sign-in
+- assertVisible: "Welcome back"
+- tapOn: "Sign Up"
+
+# Should see sign-up screen
+- assertVisible: "Create your account"
+- assertVisible: "Get started with App."
+
+# Verify all form fields
+- assertVisible: "Name"
+- assertVisible: "Email"
+- assertVisible: "Password"
+- assertVisible: "Confirm Password"
+- assertVisible: "Create Account"
+
+# Try submitting empty form
+- tapOn:
+    id: "signup-submit"
+- assertVisible: "Name must be at least 2 characters"
+- assertVisible: "Email is required"
+
+# Navigate back to sign-in
+- assertVisible: "Already have an account?"
+- tapOn: "Sign In"
+- assertVisible: "Welcome back"

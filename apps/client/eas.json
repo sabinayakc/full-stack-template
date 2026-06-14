@@ -1,0 +1,75 @@
+{
+  "cli": {
+    "version": ">= 16.0.0",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "ios": {
+        "buildConfiguration": "Debug"
+      },
+      "env": {
+        "EXPO_PUBLIC_ENV": "development",
+        "EXPO_PUBLIC_SERVER_URL": "https://app-dev.example.com",
+        "EXPO_PUBLIC_WEB_HOST": "app-dev.example.com",
+        "EXPO_PUBLIC_GOOGLE_MAPS_API_KEY": "AIzaSyAbJjhT0Ay4kRurYS7mo7pVkO02YJ2BLJI"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "autoIncrement": true,
+      "ios": {
+        "buildConfiguration": "Release"
+      },
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_ENV": "development",
+        "EXPO_PUBLIC_SERVER_URL": "https://app-dev.example.com",
+        "EXPO_PUBLIC_WEB_HOST": "app-dev.example.com",
+        "EXPO_PUBLIC_GOOGLE_MAPS_API_KEY": "AIzaSyAbJjhT0Ay4kRurYS7mo7pVkO02YJ2BLJI"
+      }
+    },
+    "production": {
+      "autoIncrement": true,
+      "ios": {
+        "buildConfiguration": "Release"
+      },
+      "android": {
+        "buildType": "app-bundle"
+      },
+      "env": {
+        "EXPO_PUBLIC_ENV": "production",
+        "EXPO_PUBLIC_SERVER_URL": "https://app.example.com",
+        "EXPO_PUBLIC_WEB_HOST": "app.example.com",
+        "EXPO_PUBLIC_GOOGLE_MAPS_API_KEY": "AIzaSyAbJjhT0Ay4kRurYS7mo7pVkO02YJ2BLJI"
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "ios": {
+        "appleId": "kc.sabinaya@gmail.com",
+        "appleTeamId": "R94REX6YL6",
+        "ascAppId": "6762207945"
+      },
+      "android": {
+        "track": "production",
+        "releaseStatus": "draft"
+      }
+    },
+    "preview": {
+      "ios": {
+        "appleId": "kc.sabinaya@gmail.com",
+        "appleTeamId": "R94REX6YL6",
+        "ascAppId": "6762207945"
+      },
+      "android": {
+        "track": "internal"
+      }
+    }
+  }
+}

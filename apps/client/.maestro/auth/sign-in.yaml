@@ -1,0 +1,37 @@
+appId: com.example.app
+name: "Auth - Sign In (UI Validation)"
+tags:
+  - auth
+  - validation
+---
+- launchApp:
+    clearState: true
+
+# Should land on the sign-in screen
+- assertVisible: "Welcome back"
+- assertVisible: "Sign in to continue."
+
+# Verify form fields exist
+- assertVisible: "Email"
+- assertVisible: "Password"
+- assertVisible: "Sign In"
+
+# Try submitting empty form - should show validation errors
+- tapOn:
+    id: "signin-submit"
+- assertVisible: "Email is required"
+- assertVisible: "Password is required"
+
+# Enter invalid email
+- tapOn:
+    id: "signin-email"
+- inputText: "not-an-email"
+- tapOn:
+    id: "signin-submit"
+- assertVisible: "Enter a valid email"
+
+# Verify forgot password link exists
+- assertVisible: "Forgot password?"
+
+# Verify sign-up link exists
+- assertVisible: "Sign Up"

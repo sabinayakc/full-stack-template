@@ -1,0 +1,76 @@
+appId: com.example.app
+name: "E2E - Invitation Join Flow"
+tags:
+  - e2e
+  - auth
+  - onboarding
+  - invites
+---
+# Full end-to-end invitation flow:
+#   1. Inviter signs up + creates org + invites a specific email
+#   2. Invitee signs up with that email
+#   3. Invitee sees and accepts the invitation
+#   4. Invitee completes slim onboarding (preferences only)
+#   5. Invitee lands on the main app
+#
+# Prerequisites:
+#   - Server running with E2E_AUTO_VERIFY=true
+
+- runScript:
+    file: ../helpers/test-data.js
+
+# ═══════════════════════════════════════════════════════════════════════
+# Phase 1: Inviter signs up, creates org, sends invitation
+# ═══════════════════════════════════════════════════════════════════════
+- launchApp:
+    clearState: true
+
+- runFlow:
+    file: ../shared/signup.yaml
+    env:
+      NAME: "${output.inviterName}"
+      EMAIL: "${output.inviterEmail}"
+
+- runFlow:
+    file: ../shared/onboarding-invite-specific.yaml
+    env:
+      ORG_NAME: "${output.inviterOrgName}"
+      INVITE_EMAIL: "${output.inviteeEmail}"
+
+# ═══════════════════════════════════════════════════════════════════════
+# Phase 2: Clear state, sign up as the invitee
+# ═══════════════════════════════════════════════════════════════════════
+- launchApp:
+    clearState: true
+
+- runFlow:
+    file: ../shared/signup.yaml
+    env:
+      NAME: "${output.inviteeName}"
+      EMAIL: "${output.inviteeEmail}"
+
+# ═══════════════════════════════════════════════════════════════════════
+# Phase 3: Invitee should see the invitation (not the org creation wizard)
+# ═══════════════════════════════════════════════════════════════════════
+- extendedWaitUntil:
+    visible: "You're Invited!"
+    timeout: 10000
+
+- assertVisible: "${output.inviterOrgName}"
+- assertVisible: "Accept Invitation"
+
+- tapOn: "Accept Invitation"
+
+- extendedWaitUntil:
+    visible: "Welcome!"
+    timeout: 10000
+
+# ═══════════════════════════════════════════════════════════════════════
+# Phase 4: Slim onboarding (preferences only, org step skipped)
+# ═══════════════════════════════════════════════════════════════════════
+- extendedWaitUntil:
+    visible: "Your Preferences"
+    timeout: 10000
+
+- runFlow:
+    file: ../shared/onboarding-invite-join.yaml
